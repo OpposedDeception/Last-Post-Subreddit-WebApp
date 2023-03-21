@@ -1,4 +1,15 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "builds": [
+      {
+          "src": "*.py",
+          "use": "/src"
+      }
+  ],
+  "routes": [
+      {
+          "src": "(.*)",
+          "dest": "api.py"
+      }
+  ]
 }
