@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import praw
 
 app = Flask(__name__)
@@ -14,14 +14,16 @@ password='your password'
 
 def post():
     subreddit = reddit.subreddit("androidroot")
-    posts = subreddit.new(limit=14)
-    return list(posts)
+    for post in subreddit.new(limit=1):
+        elements = [post.selftext, post.shortlink]
+    return elements
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     posts = post()
-    return render_template("index.html", posts=posts)
+    if request.method == "GET":
+      return render_template("index.html", posts=posts)
     
 if __name__ == "__main__":
     app.run(debug=True)
